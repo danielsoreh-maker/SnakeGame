@@ -22,7 +22,7 @@ fps = pygame.time.Clock()
 game = SnakeGame(WINDOW_SIZE, BLOCK_SIZE)
 
 # Fonts rezultātam (jādefinē vienu reizi pirms cikla)
-score_font = pygame.font.SysFont("arial", 25)
+score_font = pygame.font.SysFont("Courier New", 25)
 
 
 def draw_grid():

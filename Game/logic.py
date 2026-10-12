@@ -51,6 +51,8 @@ class SnakeGame:
             or head_x >= self.window_size
             or head_y < 0
             or head_y >= self.window_size
+            or [head_x, head_y]
+            in self.snake_body[:-1]
         ):
             return False  # Spēle beigusies!
 
@@ -61,12 +63,16 @@ class SnakeGame:
         if [head_x, head_y] == self.fruit_position:
             self.score += 10
             # Uzģenerējam jaunu ābolu nejaušā vietā uz režģim atbilstošām koordinātām
-            self.fruit_position = [
-                random.randrange(0, self.window_size // self.block_size)
-                * self.block_size,
-                random.randrange(0, self.window_size // self.block_size)
-                * self.block_size,
-            ]
+            while True:
+                new_fruit = [
+                    random.randrange(0, self.window_size // self.block_size)
+                    * self.block_size,
+                    random.randrange(0, self.window_size // self.block_size)
+                    * self.block_size,
+                ]
+                if new_fruit not in self.snake_body:
+                    self.fruit_position = new_fruit
+                    break
         else:
             # Ja neapēda, noņemam asti (saglabājam garumu)
             self.snake_body.pop()
