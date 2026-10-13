@@ -20,9 +20,18 @@ class SnakeGame:
         self.score = 0
         self.current_speed = 7
 
+        #Energy līmenis matrix funkcijai
+        self.energy = 100
+        self.is_matrix_active = False
+
         # Ābols un superābols
         self.is_super_fruit = False
         self.fruit_position = [300, 300]
+
+    def activate_matrix_effect(self):
+        if self.energy > 0:
+            self.is_matrix_active = not self.is_matrix_active
+
 
     def update(self):
         if self.change_to == "UP" and self.direction != "DOWN":
@@ -61,7 +70,10 @@ class SnakeGame:
 
         # Pārbaudām, vai čūska apēda ābolu
         if [head_x, head_y] == self.fruit_position:
-            self.score += 10
+            if self.is_super_fruit:
+                self.score += 150
+            else:
+                self.score += 10
             # Sarežģītības līmeņa regulēšana atkarībā no punktiem
             if self.score in [150, 300, 450, 600, 750]:
                 self.current_speed += 1 # Ātruma mainīšana
@@ -76,8 +88,18 @@ class SnakeGame:
                 if new_fruit not in self.snake_body:
                     self.fruit_position = new_fruit
                     break
+            
+            self.is_super_fruit = random.random() < 0.05    
         else:
             # Ja neapēda, noņemam asti (saglabājam garumu)
             self.snake_body.pop()
+        if self.is_matrix_active:
+            self.energy -= 4  # Tērējam enerģiju
+            if self.energy <= 0:
+                self.energy = 0
+                self.is_matrix_active = False
+        else:
+            if self.energy < 100:
+                self.energy += 1  # Lēnām atjaunojam enerģiju, kad nelieto
 
         return True  # Viss kārtībā, spēle turpinās
