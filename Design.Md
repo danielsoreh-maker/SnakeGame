@@ -3,7 +3,7 @@
 
 ## 2.Mērķis - Vadīt čūsku pa laukumu, ēst parastos ābonus un superābolus, lai audzētu garumu un vāktu pēc iespējas vairāk punktu.   Kā zaudē: Spēle beidzas, ja čūska ietriecas laukuma malā (sienā) vai pati savā astē.
 
-## 3. WASD - Kustības taustiņi, Esc - Exit game, R - Restart, Space - Aktivizēt mehāniku Matrix effect
+## 3. WASD - Kustības taustiņi, Esc - Exit game, R - Restart, Space - Aktivizēt mehāniku Matrix effect, P - Pauze spēles vidū.
 
 ## 4. Kustība --> Apēd ābolu (+10pt vai +100pt ja superābols) --> Čūska izaug un spēle paātrinās.--> Ietriecas sienā vai astē --> Game Over un iespēja sākt no jauna (R).
 

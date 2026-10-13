@@ -18,7 +18,7 @@ class SnakeGame:
 
         # Punkti un ātrums
         self.score = 0
-        self.current_speed = 8
+        self.current_speed = 7
 
         # Ābols un superābols
         self.is_super_fruit = False
@@ -62,6 +62,9 @@ class SnakeGame:
         # Pārbaudām, vai čūska apēda ābolu
         if [head_x, head_y] == self.fruit_position:
             self.score += 10
+            # Sarežģītības līmeņa regulēšana atkarībā no punktiem
+            if self.score in [150, 300, 450, 600, 750]:
+                self.current_speed += 1 # Ātruma mainīšana
             # Uzģenerējam jaunu ābolu nejaušā vietā uz režģim atbilstošām koordinātām
             while True:
                 new_fruit = [
