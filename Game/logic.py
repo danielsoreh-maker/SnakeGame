@@ -19,6 +19,7 @@ class SnakeGame:
         # Punkti un ātrums
         self.score = 0
         self.current_speed = 7
+        self.level = 1
 
         #Energy līmenis matrix funkcijai
         self.energy = 100
@@ -32,7 +33,11 @@ class SnakeGame:
         if self.energy > 0:
             self.is_matrix_active = not self.is_matrix_active
 
-
+    def get_speed(self):
+        if self.is_matrix_active:
+            return self.current_speed // 2
+        return self.current_speed
+    
     def update(self):
         if self.change_to == "UP" and self.direction != "DOWN":
             self.direction = "UP"
@@ -75,8 +80,8 @@ class SnakeGame:
             else:
                 self.score += 10
             # Sarežģītības līmeņa regulēšana atkarībā no punktiem
-            if self.score in [150, 300, 450, 600, 750]:
-                self.current_speed += 1 # Ātruma mainīšana
+            self.level = min(1 + self.score // 150, 6)
+            self.current_speed = 7 + self.level - 1
             # Uzģenerējam jaunu ābolu nejaušā vietā uz režģim atbilstošām koordinātām
             while True:
                 new_fruit = [

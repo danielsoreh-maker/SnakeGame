@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="lv">
-<head>
-  <meta charset="UTF-8">
-  <title>The Big O-Block - Noteikumi</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <!-- Navigācijas izvēlne, kas savieno abas lapas -->
-  <nav>
-  <a href="leaderboard.html">TOP</a>
-  <div class="nav-divider"></div>
-  <a href="rules.html">Noteikumi</a>
-</nav>
+{% extends "base.html" %}
 
+{% block title %}The Big O-Block - Noteikumi{% endblock %}
+
+{% block content %}
   <h1>Spēles Noteikumi un Mehānika</h1>
   <p><strong>The Big O-Block</strong> ir moderna, dinamiska čūskas spēle. Tavs uzdevums ir vadīt čūsku, vākt ābolus, krāt punktus un izvairīties no sadursmēm!</p>
 
@@ -31,5 +21,4 @@
     <li><strong>Ātruma palielināšanās:</strong> Sasniedzot noteiktus punktu sliekšņus (150, 300, 450, 600 un 750), spēles ātrums automātiski pieaug.</li>
     <li><strong>Pauze un Beigas:</strong> Ar `P` taustiņu spēli var jebkurā brīdī nopauzēt, bet pēc zaudējuma spēli var uzsākt no jauna, nospiežot `R` taustiņu.</li>
   </ul>
-</body>
-</html>
+{% endblock %}

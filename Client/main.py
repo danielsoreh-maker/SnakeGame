@@ -106,7 +106,6 @@ while running:
     pygame.display.update()
     fps.tick(10)
     continue    
-
       
    # Loģikas atjaunināšana
   is_alive = game.update()
@@ -137,14 +136,13 @@ while running:
         center=(WINDOW_SIZE / 2, WINDOW_SIZE / 2 + 45)
     )
     game_window.blit(sub_surface, sub_rect)
-
     pygame.display.update()
 
     # --- NOSŪTĀM REZULTĀTU UZ SERVERI ---
     try:
         url = "http://127.0.0.1:8000/scores"  # Tavs API servera adrese
         payload = {
-            "username": username,
+            "player": username,
             "score": game.score
         }
         # Ja serveris prasa tokenu, to varēs pievienot headers, bet pagaidām sūtām JSON
@@ -170,7 +168,7 @@ while running:
             waiting = False
             running = False
           elif event.key == pygame.K_r:
-            # Izveidojam jaunu spēles objektu un turpinām ciklu!
+            # Izveidojam jaunu spēles objektu
             game = SnakeGame(WINDOW_SIZE, BLOCK_SIZE)
             waiting = False
 
@@ -178,9 +176,9 @@ while running:
   game_window.fill(BLACK)
   draw_grid()
 
-  # 1. Čūskas zīmēšana(uzlabotais ver)... beta still
+  # 1. Čūskas zīmēšana
   for i, pos in enumerate(game.snake_body):
-    # Uzzīmējam ķermeņa posmu ar nedaudz noapaļotiem stūriem un atstarpēm, lai redzētu blokus
+    # Uzzīmējam ķermeņa posmu ar nedaudz noapaļotiem stūriem un atstarpēm
     rect = pygame.Rect(
         pos[0] + 2, pos[1] + 2, BLOCK_SIZE - 4, BLOCK_SIZE - 4
     )
@@ -205,8 +203,7 @@ while running:
       pygame.draw.circle(game_window, eye_color, eye1, 5)
       pygame.draw.circle(game_window, eye_color, eye2, 5)
 
-
-  # 2. Ābola zīmēšana (Noapaļots ar kātiņu un lapiņu)...Beta
+  # 2. Ābola zīmēšana (Noapaļots ar kātiņu un lapiņu)
   apple_color = GOLD if game.is_super_fruit else RED
   apple_rect = pygame.Rect(
         game.fruit_position[0] + 8,
@@ -227,7 +224,7 @@ while running:
     )
   pygame.draw.rect(game_window, stem_color, stem_rect, border_radius=3)
 
-  # Zaļa lapiņa blakus kātiņam
+  # Zaļa lapiņa
   leaf_color = (0, 220, 0)
   pygame.draw.ellipse(
       game_window,
@@ -243,9 +240,9 @@ while running:
   score_surface = score_font.render(f"Punkti: {game.score}", True, WHITE)
   game_window.blit(score_surface, (10, 10))
 
-  # --- MATRIX EFEKTS UN ENERĢIJAS LĪNIJa ---
+  # --- MATRIX EFEKTS UN ENERĢIJAS LĪNIJA ---
   # Ja Matrix ir aktīvs, palēninām kadru nomaiņu (laika palēnināšana)
-  actual_speed = game.current_speed // 2 if game.is_matrix_active else game.current_speed
+  actual_speed = game.get_speed()
   
   bar_width = 200
   bar_height = 15
