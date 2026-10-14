@@ -27,7 +27,7 @@ class SnakeGame:
 
         # Ābols un superābols
         self.is_super_fruit = False
-        self.fruit_position = [300, 300]
+        self.fruit_position = [300, 300]        
 
     def activate_matrix_effect(self):
         if self.energy > 0:

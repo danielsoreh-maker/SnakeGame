@@ -4,10 +4,6 @@ import pygame
 import time
 from Game.logic import SnakeGame
 
-username = input("Ievadi savu lietotājvārdu: ")
-print(f"Sveiks, {username}! Spēle tiek lādēta...")
-time.sleep(2)
-
 # Krāsas
 BLACK = pygame.Color(0, 0, 0)
 WHITE = pygame.Color(255, 255, 255)
@@ -36,7 +32,8 @@ def draw_grid():
   for y in range(0, WINDOW_SIZE, BLOCK_SIZE):
     pygame.draw.line(game_window, GRID_COLOR, (0, y), (WINDOW_SIZE, y))
 
-# --- SĀKUMA EKRĀNS (MAIN MENU) ---
+# --- SĀKUMA EKRĀNS AR VĀRDA IEVADI ---
+username = ""  # Sākumā tukšs vārds
 in_menu = True
 while in_menu:
     game_window.fill(BLACK)
@@ -48,11 +45,11 @@ while in_menu:
     title_rect = title_surface.get_rect(center=(WINDOW_SIZE / 2, WINDOW_SIZE / 2 - 160))
     game_window.blit(title_surface, title_rect)
 
-    # Sveicens ar ievadīto vārdu
-    user_font = pygame.font.SysFont("Courier New", 22,bold=True)
-    user_surface = user_font.render(f"Spēlētājs: {username}", True, GOLD)
-    user_rect = user_surface.get_rect(center=(WINDOW_SIZE / 2, WINDOW_SIZE / 2 - 50))
-    game_window.blit(user_surface, user_rect)
+    # Ievades lauka teksts (rādām to, ko lietotājs raksta)
+    prompt_font = pygame.font.SysFont("Courier New", 22, bold=True)
+    prompt_surface = prompt_font.render(f"Ievadi savu vārdu: {username}_", True, GOLD)
+    prompt_rect = prompt_surface.get_rect(center=(WINDOW_SIZE / 2, WINDOW_SIZE / 2 - 50))
+    game_window.blit(prompt_surface, prompt_rect)
 
     # "Press ENTER to start" uzraksts
     start_font = pygame.font.SysFont("Courier New", 20, bold=True)
@@ -62,16 +59,26 @@ while in_menu:
 
     pygame.display.update()
 
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:  # Enter taustiņš sākt spēli
-                in_menu = False
+            if event.key == pygame.K_RETURN:
+                # Sākam spēli tikai tad, ja vārds nav tukšs (maksimums 20 zīmes, kā tavā serverī)
+                if len(username.strip()) > 0:
+                    in_menu = False
+            elif event.key == pygame.K_BACKSPACE:
+                # Dzēst pēdējo burtu
+                username = username[:-1]
             elif event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 exit()
+            else:
+                # Pievienot burtu vārdam, ja garums ir mazāks par 20 zīmēm
+                if len(username) < 20:
+                    username += event.unicode
 paused = False # Pauzes ekrānam
 running = True # Dzīve ciklam
 
@@ -145,7 +152,7 @@ while running:
             "player": username,
             "score": game.score
         }
-        # Ja serveris prasa tokenu, to varēs pievienot headers, bet pagaidām sūtām JSON
+        #Sūtām JSON
         response = requests.post(url, json=payload, timeout=3)
         
         if response.status_code in [200, 201]:
@@ -153,7 +160,7 @@ while running:
         else:
             print(f"Serveris atgrieza kļūdu: {response.status_code}")
             
-    except requests.exceptions.ConnectionError:
+    except requests.exceptions.RequestException:
         print("Uzmanību: Neizdevās savienoties ar serveri! (Serveris nav ieslēgts)")
 
     # Gaidām lietotāja izvēli
