@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}The Big O-Block - {{ name }}{% endblock %}
+
+{% block content %}
+  <h1>{{ name }}</h1>
+  <p>Nospēlētas spēles: {{ games }} | Labākais rezultāts: {{ best }}</p>
+
+  <h2>Visas spēles</h2>
+  <table class="player-table">
+    <tr><th>#</th><th>Punkti</th></tr>
+    {% for score in results %}
+    <tr{% if loop.first %} class="first"{% endif %}>
+      <td>{{ loop.index }}</td>
+      <td>{{ score }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

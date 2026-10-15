@@ -9,7 +9,7 @@
     {% for row in rows %}
     <tr{% if loop.first %} class="first"{% endif %}>
       <td>{{ loop.index }}</td>
-      <td>{{ row.player }}</td>
+      <td><a href="/players/{{ row.player | urlencode }}">{{ row.player }}</a></td>
       <td>{{ row.score }}</td>
     </tr>
     {% endfor %}

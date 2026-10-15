@@ -145,3 +145,11 @@ tr:last-child td {
     flex: 1; /* Sadala vietu vienādi uz pusēm abām kārtīm */
     box-sizing: border-box;
 }
+td a {
+  color: inherit;
+  text-decoration: none;
+}
+.player-table th,
+.player-table td {
+  text-align: center;
+}
