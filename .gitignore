@@ -3,3 +3,4 @@ game.db
 /Client/__pycache__
 /Game/__pycache__
 */__pycache__
+.venv
